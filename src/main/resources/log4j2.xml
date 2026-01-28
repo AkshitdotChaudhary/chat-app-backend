@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSSZ} %-5p [%C:%L] (%t) %m%n
+        </Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <RollingFile name="appLog"
+                     fileName="../../../logger/server.log"
+                     filePattern="../../../logger/server-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"
+                                           modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+    </Appenders>
+    <Loggers>
+
+        <Logger name="org.hibernate" level="info" additivity="false">
+            <AppenderRef ref="appLog"/>
+        </Logger>
+
+        <!-- Log all SQL statements -->
+        <Logger name="org.hibernate.SQL" level="debug"
+                additivity="false">
+            <AppenderRef ref="appLog"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="appLog"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

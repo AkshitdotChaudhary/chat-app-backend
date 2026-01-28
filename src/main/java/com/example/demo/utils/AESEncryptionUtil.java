@@ -10,20 +10,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class AESEncryptionUtil
 {
-    private static String secretEncrypt = "B4m1Vd48d4c42c4dfdc0e19cg9e2GjDn";
-    
-    private static Key generateKey(String secret) throws Exception {
-        byte[] decoded = Base64.decodeBase64(secret.getBytes());
-        Key key = new SecretKeySpec(decoded, "AES");
-        return key;
+    private static final String secretEncrypt = "B4m1Vd48d4c42c4dfdc0e19cg9e2GjDn";
+    private static Key generateKey( String secret )
+    {
+        byte[] decoded = Base64.decodeBase64( secret.getBytes() );
+        return new SecretKeySpec( decoded, "AES" );
     }
-    
-    public static String encrypt(String plaintext) throws Exception {
-        String secretKey = new String(Base64.encodeBase64(secretEncrypt.getBytes()));
-        Key key = generateKey(secretKey);
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(1, key);
-        byte[] encryptedText = cipher.doFinal(plaintext.getBytes());
-        return Base64.encodeBase64String(encryptedText);
+
+    public static String encrypt( String plaintext )
+        throws Exception
+    {
+        String secretKey = new String( Base64.encodeBase64( secretEncrypt.getBytes() ) );
+        Key key = generateKey( secretKey );
+        Cipher cipher = Cipher.getInstance( "AES" );
+        cipher.init( 1, key );
+        byte[] encryptedText = cipher.doFinal( plaintext.getBytes() );
+        return Base64.encodeBase64String( encryptedText );
     }
 }

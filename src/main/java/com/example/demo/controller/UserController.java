@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.example.demo.dto.UserReqDto;
 import com.example.demo.dto.UserResDto;
 import com.example.demo.impl.UserImpl;
@@ -13,14 +15,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.example.demo.constant.UrlMappingConstant.LOGIN;
-import static com.example.demo.constant.UrlMappingConstant.SIGNUP;
+import static com.example.demo.constant.UrlMappingConstant.REGISTER;
 
 @RestController
 public class UserController
 {
     @Autowired
-    private UserImpl userImpl;
-    @PostMapping(SIGNUP)
+    private UserImpl            userImpl;
+    private static final Logger LOGGER = LogManager.getLogger( UserController.class );
+    @PostMapping(REGISTER)
     public UserResDto signup( @RequestBody UserReqDto reqDto, HttpServletResponse inRes )
         throws Exception
     {
@@ -37,6 +40,7 @@ public class UserController
         UserResDto res = userImpl.login( req );
         inRes.setHeader( "token", AESEncryptionUtil.encrypt( res.getToken() ) );
         res.setToken( null );
+        LOGGER.info( "res : {}", res );
         return res;
     }
 }

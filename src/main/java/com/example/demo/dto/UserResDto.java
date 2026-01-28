@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class UserResDto extends CommonRes
+public class UserResDto extends CommonResDto
 {
     private Integer id;
     private String username;

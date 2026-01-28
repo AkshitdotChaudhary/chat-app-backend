@@ -8,13 +8,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtAuthenticationEntryPoint
-        implements AuthenticationEntryPoint
+    implements
+    AuthenticationEntryPoint
 {
     @Override
     public void commence( HttpServletRequest request,
                           HttpServletResponse response,
-                          AuthenticationException authException)
+                          AuthenticationException authException )
     {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setStatus( HttpServletResponse.SC_UNAUTHORIZED );
     }
 }
