@@ -2,8 +2,8 @@ package com.example.demo.impl;
 
 import com.example.demo.constant.ActivityStatusEnum;
 import com.example.demo.constant.MessageTypeEnum;
-import com.example.demo.dto.MessageResDto;
-import com.example.demo.dto.SendMessageReqDto;
+import com.example.demo.dto.request.SendMessageReqDto;
+import com.example.demo.dto.response.MessageResDto;
 import com.example.demo.model.Conversation;
 import com.example.demo.model.Message;
 import com.example.demo.model.User;

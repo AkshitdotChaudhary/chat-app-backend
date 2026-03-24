@@ -27,6 +27,7 @@ public interface UrlMappingConstant
     String CONVERSATION_BASE        = API_BASE + "/conversations";
     String CREATE_CONVERSATION      = CONVERSATION_BASE;
     String GET_CONVERSATIONS        = CONVERSATION_BASE;
+    String GET_USER_CONVERSATIONS   = CONVERSATION_BASE + "/user/{userId}";
     String GET_CONVERSATION_DETAILS = CONVERSATION_BASE + "/{conversationId}";
     String DELETE_CONVERSATION      = CONVERSATION_BASE + "/{conversationId}";
     /* ---- Group specific ---- */

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.dto.GetConversationResDto;
+import com.example.demo.dto.response.GetConversationResDto;
 import com.example.demo.model.Conversation;
 
 @Repository
@@ -18,7 +18,7 @@ public interface ConversationRepo
     Conversation findByIdAndStatus( Integer id, Byte status );
 
     @Query("""
-                SELECT new com.example.demo.dto.GetConversationResDto(
+                SELECT new com.example.demo.dto.response.GetConversationResDto(
                     c.id, c.type, c.title
                 )
                 FROM ConversationMembers cm

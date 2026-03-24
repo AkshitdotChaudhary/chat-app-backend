@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.GetConversationResDto;
+import com.example.demo.dto.response.GetConversationResDto;
 import com.example.demo.model.Conversation;
 import com.example.demo.model.ConversationMembers;
 import com.example.demo.repo.ConversationMemberRepo;

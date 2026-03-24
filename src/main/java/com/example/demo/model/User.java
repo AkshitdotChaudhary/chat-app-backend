@@ -29,9 +29,10 @@ public class User
     private Byte                      status;
     @OneToMany(mappedBy = "user")
     private List<ConversationMembers> conversationMembers;
-    public User( String username, String password )
+    public User( String username, String password, Byte status )
     {
         this.username = username;
         this.password = password;
+        this.status = status;
     }
 }

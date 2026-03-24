@@ -3,6 +3,7 @@ package com.example.demo.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +16,13 @@ import java.util.UUID;
 public class JwtUtils
 {
     //    @Value("${jwt.secret}")
-    private String          JWT_SECRET                    = "my_super_secure_jwt_secret_key_for_my_project_is_123456789";
+    String                  JWT_SECRET                    = "my_super_secure_jwt_secret_key_for_my_project_is_123456789";
     //    @Value("${refresh.secret}")
-    private String          REFRESH_SECRET                = "my_super_secure_refresh_secret_key_for_my_project_is_123456789";
+    String                  REFRESH_SECRET                = "my_super_secure_refresh_secret_key_for_my_project_is_123456789";
     //    @Value("${jwt.expiration}")
-    private long            JWT_EXPIRATION_TIME           = 3600000;
+    long                    JWT_EXPIRATION_TIME           = 3600000;
     //    @Value("${jwt.refresh.token.expiration}")
-    private long            REFRESH_TOKEN_EXPIRATION_TIME = 604800000;
+    long                    REFRESH_TOKEN_EXPIRATION_TIME = 604800000;
     private final SecretKey accessKey                     = Keys
             .hmacShaKeyFor( JWT_SECRET.getBytes( StandardCharsets.UTF_8 ) );
     private final SecretKey refreshKey                    = Keys
