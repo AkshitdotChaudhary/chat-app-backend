@@ -111,7 +111,7 @@ Client (Angular)
 
 ## 📁 Related Repository
 
-- **Frontend (Angular):** Coming soon
+- **Frontend (Angular):** [Link](https://github.com/AkshitdotChaudhary/chat-app-frontend)
 
 ---
 
