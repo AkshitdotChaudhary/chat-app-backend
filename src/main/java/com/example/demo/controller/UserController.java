@@ -3,12 +3,14 @@ package com.example.demo.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.example.demo.constant.ServiceCodeEnum;
 import com.example.demo.constant.UrlMappingConstant;
 import com.example.demo.dto.request.UserReqDto;
 import com.example.demo.dto.response.LoginResDto;
 import com.example.demo.dto.response.UserResDto;
 import com.example.demo.impl.UserImpl;
 import com.example.demo.utils.AESEncryptionUtil;
+import com.example.demo.utils.CommonUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +34,7 @@ public class UserController
     public UserResDto signup( @RequestBody UserReqDto reqDto, HttpServletResponse inRes )
         throws Exception
     {
+        ServiceCodeEnum serviceCode = ServiceCodeEnum.UNABLE_TO_PROCESS;
         UserResDto res = userImpl.signup( reqDto );
         String token = res.getToken();
         if ( token != null )
@@ -39,6 +42,8 @@ public class UserController
             inRes.setHeader( "token", AESEncryptionUtil.encrypt( token ) );
             res.setToken( null );
         }
+        serviceCode = ServiceCodeEnum.SUCCESS;
+        res.setStatus( CommonUtil.getStatusParams( serviceCode ) );
         return res;
     }
 
@@ -46,9 +51,12 @@ public class UserController
     public LoginResDto login( @RequestBody UserReqDto req, HttpServletResponse inRes )
         throws Exception
     {
+        ServiceCodeEnum serviceCode = ServiceCodeEnum.UNABLE_TO_PROCESS;
         LoginResDto res = userImpl.login( req );
         inRes.setHeader( "token", AESEncryptionUtil.encrypt( res.getUser().getToken() ) );
         res.getUser().setToken( null );
+        serviceCode = ServiceCodeEnum.SUCCESS;
+        res.setStatus( CommonUtil.getStatusParams( serviceCode ) );
         LOGGER.info( "res : {}", res );
         return res;
     }

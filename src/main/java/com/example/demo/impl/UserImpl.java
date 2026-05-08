@@ -65,4 +65,9 @@ public class UserImpl
         res.setStatus( CommonUtil.getStatusParams( serviceCode ) );
         return res;
     }
+
+    public String blockUnBlock()
+    {
+        return null;
+    }
 }

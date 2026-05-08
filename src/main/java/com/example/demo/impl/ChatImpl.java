@@ -2,6 +2,7 @@ package com.example.demo.impl;
 
 import com.example.demo.constant.ActivityStatusEnum;
 import com.example.demo.constant.MessageTypeEnum;
+import com.example.demo.constant.ServiceCodeEnum;
 import com.example.demo.dto.request.SendMessageReqDto;
 import com.example.demo.dto.response.MessageResDto;
 import com.example.demo.model.Conversation;
@@ -26,6 +27,7 @@ public class ChatImpl
     private static final Byte   ACTIVE = ActivityStatusEnum.ACTIVE.getStatus();
     public MessageResDto sendMessage( SendMessageReqDto req )
     {
+        ServiceCodeEnum serviceCode = ServiceCodeEnum.UNABLE_TO_PROCESS;
         Conversation conversation = conversationService.findConversationByIdAndStatus( req.getConversationId(),
                                                                                        ACTIVE );
         User sender = userService.findUserByIdAndStatus( req.getSenderId(), ACTIVE );
@@ -35,6 +37,7 @@ public class ChatImpl
         msg.setContent( req.getContent() );
         msg.setMessageType( MessageTypeEnum.TEXT.getMessageType() );
         messageService.saveMessage( msg );
+        serviceCode = ServiceCodeEnum.SUCCESS;
         // create delivery statuses
         //        memberRepo.findByConversationId(conversation.getId())
         //                .forEach(m -> {
