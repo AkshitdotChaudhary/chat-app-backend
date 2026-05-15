@@ -36,12 +36,12 @@ public class UserController
     {
         ServiceCodeEnum serviceCode = ServiceCodeEnum.UNABLE_TO_PROCESS;
         UserResDto res = userImpl.signup( reqDto );
-        String token = res.getToken();
-        if ( token != null )
-        {
-            inRes.setHeader( "token", AESEncryptionUtil.encrypt( token ) );
-            res.setToken( null );
-        }
+        //        String token = res.getToken();
+        //        if ( token != null )
+        //        {
+        //            inRes.setHeader( "token", AESEncryptionUtil.encrypt( token ) );
+        //            res.setToken( null );
+        //        }
         serviceCode = ServiceCodeEnum.SUCCESS;
         res.setStatus( CommonUtil.getStatusParams( serviceCode ) );
         return res;
@@ -51,12 +51,12 @@ public class UserController
     public LoginResDto login( @RequestBody UserReqDto req, HttpServletResponse inRes )
         throws Exception
     {
-        ServiceCodeEnum serviceCode = ServiceCodeEnum.UNABLE_TO_PROCESS;
         LoginResDto res = userImpl.login( req );
-        inRes.setHeader( "token", AESEncryptionUtil.encrypt( res.getUser().getToken() ) );
-        res.getUser().setToken( null );
-        serviceCode = ServiceCodeEnum.SUCCESS;
-        res.setStatus( CommonUtil.getStatusParams( serviceCode ) );
+        if ( res.getToken() != null )
+        {
+            inRes.setHeader( "token", AESEncryptionUtil.encrypt( res.getToken() ) );
+        }
+        res.setToken( null );
         LOGGER.info( "res : {}", res );
         return res;
     }

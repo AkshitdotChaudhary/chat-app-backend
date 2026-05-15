@@ -27,4 +27,28 @@ public class AESEncryptionUtil
         byte[] encryptedText = cipher.doFinal( plaintext.getBytes() );
         return Base64.encodeBase64String( encryptedText );
     }
+
+    public static String decrypt( String encryptedText )
+        throws Exception
+    {
+        String secretKey = new String( Base64.encodeBase64( secretEncrypt.getBytes() ) );
+        Key key = generateKey( secretKey );
+        Cipher cipher = Cipher.getInstance( "AES" );
+        cipher.init( Cipher.DECRYPT_MODE, key );
+        byte[] decodedEncryptedText = Base64.decodeBase64( encryptedText );
+        byte[] decryptedBytes = cipher.doFinal( decodedEncryptedText );
+        return new String( decryptedBytes );
+    }
+
+    public static void main( String[] args )
+    {
+        try
+        {
+            System.out.println( decrypt( "" ) );
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+        }
+    }
 }

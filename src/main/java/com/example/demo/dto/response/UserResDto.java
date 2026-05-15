@@ -17,6 +17,4 @@ public class UserResDto
 {
     private Integer id;
     private String  username;
-    @JsonIgnore
-    private String  token;
 }

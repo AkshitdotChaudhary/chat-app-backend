@@ -50,17 +50,24 @@ public class UserImpl
         UserResDto userResDto = new UserResDto();
         ServiceCodeEnum serviceCode = ServiceCodeEnum.UNABLE_TO_PROCESS;
         User user = userService.findUserByUsernameAndStatus( req.getUsername(), ACTIVE );
-        if ( user == null || !passwordEncoder.matches( req.getPassword(), user.getPassword() ) )
+        if ( user == null )
         {
-            serviceCode = ServiceCodeEnum.AUTHENTICATION_FAILED;
+            serviceCode = ServiceCodeEnum.USER_NOT_FOUND;
         }
         else
         {
-            serviceCode = ServiceCodeEnum.SUCCESS;
-            userResDto.setId( user.getId() );
-            userResDto.setToken( jwtUtils.generateToken( (long) user.getId(), "12345" ) );
-            userResDto.setUsername( user.getUsername() );
-            res.setUser( userResDto );
+            if ( !passwordEncoder.matches( req.getPassword(), user.getPassword() ) )
+            {
+                serviceCode = ServiceCodeEnum.INVALID_CREDENTIALS;
+            }
+            else
+            {
+                serviceCode = ServiceCodeEnum.SUCCESS;
+                userResDto.setId( user.getId() );
+                res.setToken( jwtUtils.generateToken( (long) user.getId(), "12345" ) );
+                userResDto.setUsername( user.getUsername() );
+                res.setUser( userResDto );
+            }
         }
         res.setStatus( CommonUtil.getStatusParams( serviceCode ) );
         return res;
