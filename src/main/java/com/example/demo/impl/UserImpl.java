@@ -23,7 +23,8 @@ public class UserImpl
     private JwtUtils          jwtUtils;
     @Autowired
     private PasswordEncoder   passwordEncoder;
-    private static final Byte ACTIVE = ActivityStatusEnum.ACTIVE.getStatus();
+    private static final Byte ACTIVE   = ActivityStatusEnum.ACTIVE.getStatus();
+    private static final Byte DEACTIVE = ActivityStatusEnum.DEACTIVE.getStatus();
     public UserResDto signup( UserReqDto req )
     {
         ServiceCodeEnum serviceCode = ServiceCodeEnum.UNABLE_TO_PROCESS;
@@ -37,7 +38,7 @@ public class UserImpl
         }
         else
         {
-            userService.saveUser( new User( username, passwordEncoder.encode( password ), ACTIVE ) );
+            userService.saveUser( new User( username, passwordEncoder.encode( password ), DEACTIVE ) );
             serviceCode = ServiceCodeEnum.SUCCESS;
         }
         res.setStatus( CommonUtil.getStatusParams( serviceCode ) );

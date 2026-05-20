@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ActivityStatusEnum {
-    ACTIVE((byte) 1),
     DEACTIVE((byte) 0),
+    ACTIVE((byte) 1),
     DELETED((byte) 2);
     private final Byte status;
 }
