@@ -3,12 +3,16 @@ package com.example.demo.impl;
 import com.example.demo.constant.ActivityStatusEnum;
 import com.example.demo.constant.ServiceCodeEnum;
 import com.example.demo.dto.request.UserReqDto;
-import com.example.demo.dto.response.LoginResDto;
 import com.example.demo.dto.response.UserResDto;
+import com.example.demo.model.SessionToken;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.CommonUtil;
 import com.example.demo.utils.JwtUtils;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,10 +49,10 @@ public class UserImpl
         return res;
     }
 
-    public LoginResDto login( UserReqDto req )
+    public UserResDto login( UserReqDto req )
     {
-        LoginResDto res = new LoginResDto();
-        UserResDto userResDto = new UserResDto();
+        UserResDto res = new UserResDto();
+        SessionToken sessionToken = new SessionToken();
         ServiceCodeEnum serviceCode = ServiceCodeEnum.UNABLE_TO_PROCESS;
         User user = userService.findUserByUsernameAndStatus( req.getUsername(), ACTIVE );
         if ( user == null )
@@ -63,11 +67,16 @@ public class UserImpl
             }
             else
             {
+                String token = jwtUtils.generateToken( (long) user.getId(), "12345" );
+                sessionToken.setToken( token );
+                sessionToken.setLoginUser( user );
+                sessionToken.setStatus( ACTIVE );
+                sessionToken.setLoginDate( LocalDateTime.now().atZone( ZoneOffset.UTC ).toInstant().toEpochMilli() );
+                userService.saveSessionToken( sessionToken );
                 serviceCode = ServiceCodeEnum.SUCCESS;
-                userResDto.setId( user.getId() );
-                res.setToken( jwtUtils.generateToken( (long) user.getId(), "12345" ) );
-                userResDto.setUsername( user.getUsername() );
-                res.setUser( userResDto );
+                res.setId( user.getId() );
+                res.setToken( token );
+                res.setUsername( user.getUsername() );
             }
         }
         res.setStatus( CommonUtil.getStatusParams( serviceCode ) );

@@ -37,6 +37,6 @@ public class SessionToken
     private Long          logoutDate;
     @Column(name = "logout_ip")
     private String        logoutIp;
-    @Column(name = "last_update_date")
+    @Column(name = "last_update_date", insertable = false, updatable = false)
     private LocalDateTime lastUpdateDate;
 }

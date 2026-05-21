@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.model.SessionToken;
 import com.example.demo.model.User;
+import com.example.demo.repo.SessionTokenRepo;
 import com.example.demo.repo.UserRepo;
 
 import java.util.List;
@@ -15,6 +17,8 @@ public class UserService
 {
     @Autowired
     private UserRepo            userRepo;
+    @Autowired
+    private SessionTokenRepo    sessionTokenRepo;
     private static final Logger LOGGER = LogManager.getLogger( UserService.class );
     public User findUserByUsernameAndStatus( String username, Byte status )
     {
@@ -43,5 +47,10 @@ public class UserService
     public void saveUser( User user )
     {
         userRepo.save( user );
+    }
+
+    public void saveSessionToken( SessionToken sessionToken )
+    {
+        sessionTokenRepo.save( sessionToken );
     }
 }

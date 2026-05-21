@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import com.example.demo.constant.ServiceCodeEnum;
 import com.example.demo.constant.UrlMappingConstant;
 import com.example.demo.dto.request.UserReqDto;
-import com.example.demo.dto.response.LoginResDto;
 import com.example.demo.dto.response.UserResDto;
 import com.example.demo.impl.UserImpl;
 import com.example.demo.utils.AESEncryptionUtil;
@@ -36,22 +35,22 @@ public class UserController
     {
         ServiceCodeEnum serviceCode = ServiceCodeEnum.UNABLE_TO_PROCESS;
         UserResDto res = userImpl.signup( reqDto );
-        //        String token = res.getToken();
-        //        if ( token != null )
-        //        {
-        //            inRes.setHeader( "token", AESEncryptionUtil.encrypt( token ) );
-        //            res.setToken( null );
-        //        }
+        String token = res.getToken();
+        if ( token != null )
+        {
+            inRes.setHeader( "token", AESEncryptionUtil.encrypt( token ) );
+            res.setToken( null );
+        }
         serviceCode = ServiceCodeEnum.SUCCESS;
         res.setStatus( CommonUtil.getStatusParams( serviceCode ) );
         return res;
     }
 
     @PostMapping(value = UrlMappingConstant.LOGIN)
-    public LoginResDto login( @RequestBody UserReqDto req, HttpServletResponse inRes )
+    public UserResDto login( @RequestBody UserReqDto req, HttpServletResponse inRes )
         throws Exception
     {
-        LoginResDto res = userImpl.login( req );
+        UserResDto res = userImpl.login( req );
         if ( res.getToken() != null )
         {
             inRes.setHeader( "token", AESEncryptionUtil.encrypt( res.getToken() ) );
